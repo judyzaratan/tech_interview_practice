@@ -96,24 +96,63 @@ print len("bbbbbbbbbb")
 # and the answer would be 3.
 
 def question4(T, r, n1, n2):
-    def search(n):
+    def search(r, node):
+        current_node = r
         path = []
-        for node in T:
-            print node
-            for child in node:
-                if node[child] != 0:
-                    path.append(child)
-        return path
-    print search(T)
+        isFound = False
+        path.append(r)
+        prev_node = None
+        while current_node != prev_node:
+            if  node == current_node:
+                isFound = True
+                break
+            if node < current_node:
+                prev_node = current_node
+                for child in range(0, current_node):
+                    if T[current_node][child] == 1:
+                        current_node = child
+                        path.append(child)
+                        break
+            if node > current_node:
+                prev_node = current_node
+                for child in range(node, len(T)):
+                    if T[current_node][child] == 1:
+                        current_node = child
+                        path.append(child)
+                        break
+        if isFound:
+            return path
+        else:
+            return None
 
-question4([[0, 1, 0, 0, 0],
-           [0, 0, 0, 0, 0],
-           [0, 0, 0, 0, 0],
-           [1, 0, 0, 0, 1],
-           [0, 0, 0, 0, 0]],
-          3,
-          1,
-          4)
+    print "search 1"
+    path1 = search(r, n1)
+    print path1
+    print "search 2"
+    path2 = search(r, n2)
+    print path2
+    foundAncestor = r
+    for i1 in range(len(path1) - 1, 0, -1):
+        for i2 in range(len(path2) - 1, 0, -1):
+            if (path1[i1] == path2[i2]):
+                foundAncestor = path1[i1]
+                break
+    return foundAncestor
+
+
+
+
+
+
+print question4([[0, 1, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 1],
+                [0, 0, 0, 0, 0]],
+                3,
+                1,
+                4
+            )
 
 
 
