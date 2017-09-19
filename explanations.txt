@@ -1,0 +1,13 @@
+Question 1
+
+Time complexity: O(n)
+It will need to iterate through the length of s, or t
+Space complexity: 1
+Temporary variable storage holding string
+
+The function iterates through the complete s string and takes each character and does a check.
+It checks if the character existing in s, is also in t and removes that character in t.
+It then checks if it can possibly break out of the loop if we have encountered all characters in t.
+
+The variable temp which serves as a counter to see if all of the characters have been exhausted.
+If it hasn't in sequence, then it will reset back to the original string t.
