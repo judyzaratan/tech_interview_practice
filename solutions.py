@@ -1,28 +1,32 @@
+import random
+
 # Question 1
 # Given two strings s and t, determine whether some anagram of t is a substring of s.
 # For example: if s = "udacity" and t = "ad", then the function returns True.
 # Your function definition should look like: question1(s, t) and return a boolean True or False.
 
-def question1(s , t):
-  if len(s) < len(t):
-      return False
-  map = {}
-  for item in s:
-      if not map.has_key(item):
-          map[item] = 0
-      map[item] += 1
-  for t_item in t:
-      if map.has_key(t_item):
-          if map[t_item] > 0:
-              map[t_item] -= 1
-          else:
-              return False
-      else:
-          return False
-  return True
 
-print "Question 1 Test Case"
-print question1('hello', 'lo')
+def question1(s , t):
+    if len(s) < len(t):
+        return False
+
+    temp = t
+    for character in s:
+        if character in t:
+          temp = temp.replace(character, "", 1)
+          if len(temp) == 0:
+              return True
+        else:
+            temp = t
+    return False
+
+print "Question 1 Test Cases"
+print question1('hello', 'loh')
+# False
+print question1('udacity', 'ad')
+# True
+print question1('udacity', 'aduaca')
+# False
 
 # Question 2
 # Given a string a, find the longest palindromic substring contained in a.
@@ -73,6 +77,57 @@ print len("bbbbbbbbbb")
 # Vertices are represented as unique strings. The function definition should be question3(G)
 
 
+def question3(G):
+    min_spanning_tree = {}
+    visted_vertices = []
+    # Initialize minimum spanning tree with vertices from G
+    for i, vertex in enumerate(G):
+        min_spanning_tree[vertex] = []
+    print min_spanning_tree
+
+
+    start_vertex = random.choice(G.keys())
+    print 'start_vertex', start_vertex
+    # Iterate through graph until all vertices are visted
+    visted_vertices.append(start_vertex)
+    print visted_vertices
+    prev_e = None
+    while len(visted_vertices) < len(G):
+        for vertex in visted_vertices:
+            for edge in G[vertex]:
+
+                if not prev_e or edge[1] < prev_e[1]:
+                    if edge[0] not in visted_vertices:
+                        prev_e = edge
+                        to_vertex = edge[0]
+                        from_vertex = vertex
+                        edge_weight = edge[1]
+
+        if not prev_e:
+            break
+        visted_vertices.append(to_vertex)
+        min_spanning_tree[from_vertex].append((to_vertex, edge_weight))
+        min_spanning_tree[to_vertex].append((from_vertex, edge_weight))
+        # if no edge is found, break the loop.
+        # this is for cases where a node is detached from the graph.
+        prev_e = None
+        edge = None
+        to_vertex = None
+        from_vertex = None
+
+
+    return min_spanning_tree
+
+
+
+
+print "question3......"
+print question3({'A': [('B', 2)],
+                'B': [('A', 2), ('C', 5), ('D', 3)],
+                'C': [('B', 5), ('E', 6)],
+                'D': [('B', 3), ('E', 1)],
+                'E': [('D', 1), ('C', 6)]
+            })
 
 # Question 4
 # Find the least common ancestor between two nodes on a binary search tree.
