@@ -43,15 +43,24 @@ print question1('udacity', 'aduaca')
 def longestPalindrome(str):
     # Return
     largestPal = ""
+
+    # Iterate through length of input
     for x in range(len(str)):
         workingStr = str[x:]
         end = len(workingStr)
+
+        # loop through creating smaller substrings of the working string
         while end != 0:
-            if workingStr == workingStr[-1:-len(workingStr)-1:-1]:
+            # reverse of the working string
+            reverse = workingStr[-1:-1-len(workingStr)-1:-1]
+
+            if workingStr == reverse:
                 if (len(workingStr)) > len(largestPal):
                     largestPal = workingStr
             end -= 1
             workingStr = workingStr[:end]
+
+
     if len(largestPal) == 0 or len(largestPal) == 1:
         return None
     else:
@@ -88,19 +97,18 @@ def question3(G):
     # Initialize minimum spanning tree with vertices from G
     for i, vertex in enumerate(G):
         min_spanning_tree[vertex] = []
-    print min_spanning_tree
 
-
+    # Choose a random vertex to begin
     start_vertex = random.choice(G.keys())
-    print 'start_vertex', start_vertex
-    # Iterate through graph until all vertices are visted
     visted_vertices.append(start_vertex)
-    print visted_vertices
+
+    # Iterate through graph until all vertices are visted
     prev_e = None
     while len(visted_vertices) < len(G):
         for vertex in visted_vertices:
             for edge in G[vertex]:
-
+                # iterate through edge list for a vertex
+                # selects edge that has the lowest weight
                 if not prev_e or edge[1] < prev_e[1]:
                     if edge[0] not in visted_vertices:
                         prev_e = edge
@@ -108,13 +116,14 @@ def question3(G):
                         from_vertex = vertex
                         edge_weight = edge[1]
 
-        if not prev_e:
-            break
+
+        # store selected lowest weight edge visted list
+        # store lowest weight edge into tree and visit node
         visted_vertices.append(to_vertex)
         min_spanning_tree[from_vertex].append((to_vertex, edge_weight))
         min_spanning_tree[to_vertex].append((from_vertex, edge_weight))
-        # if no edge is found, break the loop.
-        # this is for cases where a node is detached from the graph.
+
+        # since next vertex is stored in visited list, reset variables
         prev_e = None
         edge = None
         to_vertex = None
