@@ -11,3 +11,14 @@ It then checks if it can possibly break out of the loop if we have encountered a
 
 The variable temp which serves as a counter to see if all of the characters have been exhausted.
 If it hasn't in sequence, then it will reset back to the original string t.
+
+
+Question 2
+
+Time complexity: O(n^2)
+Space complexity: 1
+
+The function begins to find the palindrome by iterating through the length of the input string.  The function then utilizes a substring to work with.
+If a palindrome isn't found, it takes another substring of the working string and works its way down until the substring length is 0 and resets to the next character.
+I used this instead of pointers, because it took out the complication of finding even and odd strings.  Here the pointers are implicit with x as the 'start' and 'end' as the length of the substring.
+This function has time complexity of n^2 since at each character, it has to compare with n length substring 

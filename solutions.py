@@ -1,21 +1,27 @@
 import random
 
 # Question 1
-# Given two strings s and t, determine whether some anagram of t is a substring of s.
+# Given two strings s and t, determine whether some anagram of t is a
+# substring of s.
 # For example: if s = "udacity" and t = "ad", then the function returns True.
-# Your function definition should look like: question1(s, t) and return a boolean True or False.
+# Your function definition should look like: question1(s, t) and return a
+# boolean True or False.
 
 
-def question1(s , t):
+def question1(s, t):
     if len(s) < len(t):
         return False
 
     temp = t
+
+    # Iterate through s
     for character in s:
         if character in t:
-          temp = temp.replace(character, "", 1)
-          if len(temp) == 0:
-              return True
+            # If character is in s and t, mark out that character
+            temp = temp.replace(character, "", 1)
+            # Anagram has been found, with all characters in t, marked out
+            if len(temp) == 0:
+                return True
         else:
             temp = t
     return False
@@ -28,42 +34,41 @@ print question1('udacity', 'ad')
 print question1('udacity', 'aduaca')
 # False
 
+
 # Question 2
 # Given a string a, find the longest palindromic substring contained in a.
 # Your function definition should look like question2(a), and return a string.
 
+
 def longestPalindrome(str):
-    if len(str) == 1:
-        return str
-    if len(str) == 2:
-        if str[0] == str[1]:
-            return str
-        else:
-            return None
-
-    # Pointers
-    middle = 1
-    start = 1
-    end = 1
+    # Return
     largestPal = ""
-
-    while middle < len(str) - 1:
-        start -= 1
-        end += 1
-        if str[start] == str[end]:
-            if len(str[start:end +1]) > len(largestPal):
-                largestPal = str[start:end+1]
-        if start == 0 or end == len(str) - 1:
-            middle += 1
-            start = middle
-            end = middle
-    return largestPal
-
+    for x in range(len(str)):
+        workingStr = str[x:]
+        end = len(workingStr)
+        while end != 0:
+            if workingStr == workingStr[-1:-len(workingStr)-1:-1]:
+                if (len(workingStr)) > len(largestPal):
+                    largestPal = workingStr
+            end -= 1
+            workingStr = workingStr[:end]
+    if len(largestPal) == 0 or len(largestPal) == 1:
+        return None
+    else:
+        return largestPal
 
 print "Question 2 Test Case"
-print longestPalindrome("racecarbbbbbbbbbb")
-print len("bbbbbbbbbb")
 
+print longestPalindrome("bbbbbbbbbbbbbbrracecarxxxxxxxxxxxxxxxxxxxx")
+# xxxxxxxxxxxxxxxxxxxx
+print longestPalindrome("sdaasdfracecarbbb")
+# racecar
+print longestPalindrome("abracadabra")
+# aca
+print longestPalindrome("bbasdraceecarasdfa")
+# racecar
+print longestPalindrome("abcdefghijklmnopqrstuvwxyz")
+# None
 
 # Question 3
 # Given an undirected graph G, find the minimum spanning tree within G.
