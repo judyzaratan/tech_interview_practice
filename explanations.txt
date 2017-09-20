@@ -1,7 +1,9 @@
 Question 1
 
-Time complexity: O(n) It will need to iterate through the length of s, or t
-Space complexity: 1 Temporary variable storage holding string
+Time complexity: O(n)
+It will need to iterate through the length of s, or t
+Space complexity: 1
+Temporary variable storage holding string
 
 The function iterates through the complete s string and takes each character and
 does a check. It checks if the character existing in s, is also in t and removes
@@ -39,9 +41,11 @@ matrix is again iterated upon until all vertices have been visited.
 This is is O(n^2) complexity because each vertex has to compare and look up
 against each vertex to see if the edge weight is minimum and has been visited.
 
-Question 4 Time complexity: O(log n) Space complexity: O(log n)
+Question 4
 
-The function has a subfunction that finds the path of one node input to root.
+Time complexity: O(log n) Space complexity: O(log n)
+
+The function has a sub-function that finds the path of one node input to root.
 It continues looping until there are no more children from root or it encounters
 the node.  While looping, it stores the nodes it has visited along the way. The
 search is cut in half, because a comparison is done with the visited node and
@@ -51,7 +55,9 @@ element from the array to find a common node that is along the path.  If a
 common node is found, the function returns the common node.  If not, then it
 returns the root because the root is the always a common ancestor.
 
-Question 5 Time complexity: O(n) Space complexity: 1
+Question 5
+
+Time complexity: O(n) Space complexity: 1
 
 There is no additional data structures needed, but pointers are used to find mth
 element from the end.  First, the head pointer moved m places from the start of
