@@ -1,52 +1,63 @@
 Question 1
 
-Time complexity: O(n)
-It will need to iterate through the length of s, or t
-Space complexity: 1
-Temporary variable storage holding string
+Time complexity: O(n) It will need to iterate through the length of s, or t
+Space complexity: 1 Temporary variable storage holding string
 
-The function iterates through the complete s string and takes each character and does a check.
-It checks if the character existing in s, is also in t and removes that character in t.
-It then checks if it can possibly break out of the loop if we have encountered all characters in t.
+The function iterates through the complete s string and takes each character and
+does a check. It checks if the character existing in s, is also in t and removes
+that character in t. It then checks if it can possibly break out of the loop if
+we have encountered all characters in t.
 
-The variable temp which serves as a counter to see if all of the characters have been exhausted.
-If it hasn't in sequence, then it will reset back to the original string t.
-
+The variable temp which serves as a counter to see if all of the characters have
+been exhausted. If it hasn't in sequence, then it will reset back to the
+original string t.
 
 Question 2
 
-Time complexity: O(n^2)
-Space complexity: 1
+Time complexity: O(n^2) Space complexity: 1
 
-The function begins to find the palindrome by iterating through the length of the input string.  The function then utilizes a substring to work with.
-If a palindrome isn't found, it takes another substring of the working string and works its way down until the substring length is 0 and resets to the next character.
-I used this instead of pointers, because it took out the complication of finding even and odd strings.  Here the pointers are implicit with x as the 'start' and 'end' as the length of the substring.
-This function has time complexity of n^2 since at each character, it has to compare with n length substring
-
+The function begins to find the palindrome by iterating through the length of
+the input string.  The function then utilizes a substring to work with. If a
+palindrome isn't found, it takes another substring of the working string and
+works its way down until the substring length is 0 and resets to the next
+character. I used this instead of pointers, because it took out the complication
+of finding even and odd strings.  Here the pointers are implicit with x as the
+'start' and 'end' as the length of the substring. This function has time
+complexity of n^2 since at each character, it has to compare with n length
+substring
 
 Question 3
 
-Time complexity: O(n^2)
-Space complexity: n
+Time complexity: O(n^2) Space complexity: n
 
-This algorithm uses Prim's algorithm.  In the function it has a storage of visited vertices and randomly selects one vertex to kick off the process.
-In each vertex, the edges connected to that vertex are inspected and the lowest weighted edge is stored and selected as the next vertex to visit.
-The visited matrix is again iterated upon until all vertices have been visited.
+This algorithm uses Prim's algorithm.  In the function it has a storage of
+visited vertices and randomly selects one vertex to kick off the process. In
+each vertex, the edges connected to that vertex are inspected and the lowest
+weighted edge is stored and selected as the next vertex to visit. The visited
+matrix is again iterated upon until all vertices have been visited.
 
-This is is O(n^2) complexity because each vertex has to compare and look up against each vertex to see if the edge weight is minimum and has been visited.
+This is is O(n^2) complexity because each vertex has to compare and look up
+against each vertex to see if the edge weight is minimum and has been visited.
 
+Question 4 Time complexity: O(log n) Space complexity: O(log n)
 
-Question 4
-Time complexity: O(log n)
-Space complexity: O(log n)
+The function has a subfunction that finds the path of one node input to root.
+It continues looping until there are no more children from root or it encounters
+the node.  While looping, it stores the nodes it has visited along the way. The
+search is cut in half, because a comparison is done with the visited node and
+the node it is searching for.  This results to the O(log (n)) time complexity.
+After the paths of the two nodes are found, another loop is done to compare each
+element from the array to find a common node that is along the path.  If a
+common node is found, the function returns the common node.  If not, then it
+returns the root because the root is the always a common ancestor.
 
-The function has a subfunction that finds the path of one node input to root.  It continues looping until there are no more children from root or it encounters the node.  While looping, it stores the nodes it has visited along the way.
-The search is cut in half, because a comparison is done with the visited node and the node it is searching for.  This results to the O(log (n)) time complexity.
-After the paths of the two nodes are found, another loop is done to compare each element from the array to find a common node that is along the path.  If a common node is found, the function returns the common node.  If not, then it returns the root because the root is the always a common ancestor.
+Question 5 Time complexity: O(n) Space complexity: 1
 
-Question 5
-Time complexity: O(n)
-Space complexity: 1
-
-There is no additional data structures needed, but pointers are used to find mth element from the end.  First, the head pointer moved m places from the start of the linked list.  Then the tail pointer is pointed at the start of the linked list.
-A loop is run until the head pointer reaches to the end of the linked list.  The tail pointer is also moved up along with the head pointer.  Since the distance between the head and tail pointer is m, and the head pointer is pointing to the end of the list, tail pointer is now pointing at the mth element from the end of the linked list.
+There is no additional data structures needed, but pointers are used to find mth
+element from the end.  First, the head pointer moved m places from the start of
+the linked list.  Then the tail pointer is pointed at the start of the linked
+list. A loop is run until the head pointer reaches to the end of the linked
+list.  The tail pointer is also moved up along with the head pointer.  Since the
+distance between the head and tail pointer is m, and the head pointer is
+pointing to the end of the list, tail pointer is now pointing at the mth element
+from the end of the linked list.
