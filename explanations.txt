@@ -27,7 +27,7 @@ This function has time complexity of n^2 since at each character, it has to comp
 Question 3
 
 Time complexity: O(n^2)
-Time complexity: n
+Space complexity: n
 
 This algorithm uses Prim's algorithm.  In the function it has a storage of visited vertices and randomly selects one vertex to kick off the process.
 In each vertex, the edges connected to that vertex are inspected and the lowest weighted edge is stored and selected as the next vertex to visit.
@@ -36,4 +36,17 @@ The visited matrix is again iterated upon until all vertices have been visited.
 This is is O(n^2) complexity because each vertex has to compare and look up against each vertex to see if the edge weight is minimum and has been visited.
 
 
-Q
+Question 4
+Time complexity: O(log n)
+Space complexity: O(log n)
+
+The function has a subfunction that finds the path of one node input to root.  It continues looping until there are no more children from root or it encounters the node.  While looping, it stores the nodes it has visited along the way.
+The search is cut in half, because a comparison is done with the visited node and the node it is searching for.  This results to the O(log (n)) time complexity.
+After the paths of the two nodes are found, another loop is done to compare each element from the array to find a common node that is along the path.  If a common node is found, the function returns the common node.  If not, then it returns the root because the root is the always a common ancestor.
+
+Question 5
+Time complexity: O(n)
+Space complexity: 1
+
+There is no additional data structures needed, but pointers are used to find mth element from the end.  First, the head pointer moved m places from the start of the linked list.  Then the tail pointer is pointed at the start of the linked list.
+A loop is run until the head pointer reaches to the end of the linked list.  The tail pointer is also moved up along with the head pointer.  Since the distance between the head and tail pointer is m, and the head pointer is pointing to the end of the list, tail pointer is now pointing at the mth element from the end of the linked list.

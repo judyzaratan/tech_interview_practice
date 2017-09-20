@@ -135,13 +135,45 @@ def question3(G):
 
 
 
-print "question3......"
+print "Question 3 Test Cases"
 print question3({'A': [('B', 2)],
                 'B': [('A', 2), ('C', 5), ('D', 3)],
                 'C': [('B', 5), ('E', 6)],
                 'D': [('B', 3), ('E', 1)],
                 'E': [('D', 1), ('C', 6)]
             })
+
+# {'A': [('B', 2)],
+#  'B': [('A', 2), ('C', 5), ('D', 3)],
+#  'C': [('B', 5)],
+#  'D': [('B', 3), ('E', 1)],
+#  'E': [('D', 1)]
+# }
+
+print question3({'A': [('B', 6)],
+                'B': [('A', 2), ('C', 1)],
+                'C': [('B', 1), ('D', 1)],
+                'D': [('A', 1), ('C', 1)]
+            })
+
+ # {'A': [('D',1)],
+#   'B': [('C', 1)],
+#   'C': [('B', 1), ('D', 1)],
+#   'D': [('A', 1), ('C', 1)]
+# }
+print question3({'A': [('C', 6), ('D', 6), ('E', 1)],
+                 'B': [('C', 6), ('D', 6), ('E', 1)],
+                 'C': [('A', 6), ('B', 6), ('E', 1)],
+                 'D': [('A', 6), ('B', 6), ('E', 1)],
+                 'E': [('A', 1), ('B', 1), ('C', 1), ('D', 1)]
+            })
+
+ # {'A': [('E',1)],
+#   'B': [('E', 1)],
+#   'C': [('E', 1)],
+#   'D': [('E', 1)],
+#   'E': [('A', 1), ('B', 1), ('C', 1), ('D', 1)]
+# }
 
 # Question 4
 # Find the least common ancestor between two nodes on a binary search tree.
@@ -165,16 +197,25 @@ print question3({'A': [('B', 2)],
 # and the answer would be 3.
 
 def question4(T, r, n1, n2):
+
+
     def search(r, node):
+        """ A subfunction to find a path from root to node"""
+
+        # Initialize variables and pointers
         current_node = r
         path = []
         isFound = False
         path.append(r)
         prev_node = None
+
         while current_node != prev_node:
             if  node == current_node:
                 isFound = True
                 break
+
+            # Check if node is to the left in BST
+            # Find next child
             if node < current_node:
                 prev_node = current_node
                 for child in range(0, current_node):
@@ -182,6 +223,8 @@ def question4(T, r, n1, n2):
                         current_node = child
                         path.append(child)
                         break
+
+            # Check if node is to the right in BST
             if node > current_node:
                 prev_node = current_node
                 for child in range(node, len(T)):
@@ -194,25 +237,25 @@ def question4(T, r, n1, n2):
         else:
             return None
 
-    print "search 1"
     path1 = search(r, n1)
-    print path1
-    print "search 2"
     path2 = search(r, n2)
-    print path2
+
+
+    # default ancestor as root
     foundAncestor = r
+
     for i1 in range(len(path1) - 1, 0, -1):
         for i2 in range(len(path2) - 1, 0, -1):
+
+            # iterate through n1 path and compare against n2 path
+            #  to find least common ancestor
             if (path1[i1] == path2[i2]):
                 foundAncestor = path1[i1]
                 break
+
     return foundAncestor
 
-
-
-
-
-
+print "Question 4 Test Case"
 print question4([[0, 1, 0, 0, 0],
                 [0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0],
@@ -222,12 +265,41 @@ print question4([[0, 1, 0, 0, 0],
                 1,
                 4
             )
+# 3
+print question4([[0, 0, 0, 0, 0],
+                [1, 0, 0, 1, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 1, 0, 0, 0]],
+                4,
+                0,
+                3
+            )
+# 1
 
-
+print question4( [[0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0],
+                [0, 1, 0, 1, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 1, 0, 0, 0, 1],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 1, 0]],
+                4,
+                0,
+                3
+            )
+#2
 
 # Question 5
-# Find the element in a singly linked list that's m elements from the end. For example, if a linked list has 5 elements, the 3rd element from the end is the 3rd element. The function definition should look like question5(ll, m), where ll is the first node of a linked list and m is the "mth number from the end". You should copy/paste the Node class below to use as a representation of a node in the linked list. Return the value of the node at that position.
+# Find the element in a singly linked list that's m elements from the end.
+# For example, if a linked list has 5 elements, the 3rd element from the end
+# is the 3rd element. The function definition should look like
+# question5(ll, m), where ll is the first node of a linked list and m is
+# the "mth number from the end". You should copy/paste the Node class below
+# to use as a representation of a node in the linked list. Return the value
+# of the node at that position.
 #
+
 class Node(object):
   def __init__(self, data):
     self.data = data
@@ -237,6 +309,8 @@ class Node(object):
 def question5(ll, m):
     head_pointer = ll
     while m > 0:
+        if head_pointer == None:
+            return None
         head_pointer = head_pointer.next
         m -= 1
 
@@ -263,3 +337,8 @@ four.next = five
 five.next = six
 
 print question5(one, 3)
+# 4
+print question5(one, 6)
+# 1
+print question5(one, 7)
+# None
