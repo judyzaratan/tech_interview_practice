@@ -7,24 +7,69 @@ import random
 # Your function definition should look like: question1(s, t) and return a
 # boolean True or False.
 
+def compare_substrings(dict1, dict2):
 
+    if len(dict1) != len(dict2):
+        return False
+
+    # Iterate through dict1 and compare each character with dict2
+    # Break out of loop if character is not found or counts mismatch
+    for i in dict1:
+        if i in dict2:
+            if dict1[i] != dict2[i]:
+                return False
+        else:
+            return False
+    return True
+
+a = {'a': 1, 'b': 2, 'c': 1}
+b = {'a': 1, 'b': 2, 'c': 1}
+
+print 'compare', compare_substrings(a, b)
 def question1(s, t):
     if len(s) < len(t):
         return False
+    t_dict = {}
+    s_dict = {}
 
-    temp = t
-
-    # Iterate through s
-    for character in s:
-        if character in t:
-            # If character is in s and t, mark out that character
-            temp = temp.replace(character, "", 1)
-            # Anagram has been found, with all characters in t, marked out
-            if len(temp) == 0:
-                return True
+    # Create two dictionaries that contains the first len(t) elements
+    # for each string
+    for i in range(len(t)):
+        if i in t_dict:
+            t_dict[t[i]] += 1
         else:
-            temp = t
+            t_dict[t[i]] = 1
+
+        if s[i] in s_dict:
+            s_dict[s[i]] += 1
+        else:
+            s_dict[s[i]] = 1
+
+    # Compare first substring in the s substring sequence
+    if compare_substrings(s_dict, t_dict):
+        return True
+
+    # Compare remaining substrings in s
+    for i in xrange(len(t), len(s)):
+
+        # Add last character in substring
+        if s[i] in s_dict:
+            s_dict[s[i]] +=1
+        else:
+            s_dict[s[i]] = 1
+
+        # Remove last chacter from previous substring
+        s_dict[s[i - len(t)]] -=1
+        if s_dict[s[i-len(t)]] == 0:
+            del s_dict[s[i-len(t)]]
+
+       # Compare substring s with t
+        if compare_substrings(s_dict, t_dict):
+            return True
+
+
     return False
+
 
 print "Question 1 Test Cases"
 print question1('hello', 'loh')
