@@ -22,10 +22,7 @@ def compare_substrings(dict1, dict2):
             return False
     return True
 
-a = {'a': 1, 'b': 2, 'c': 1}
-b = {'a': 1, 'b': 2, 'c': 1}
 
-print 'compare', compare_substrings(a, b)
 def question1(s, t):
     if len(s) < len(t):
         return False
@@ -106,40 +103,38 @@ def longestPalindrome(str):
     radius = 0 # Edge index for the largest palindrome encountered
     pal_len = [0 for i in range(len(transformed_str))]
 
-
-
-    for i_right in range(1, len(transformed_str)-1):
-        # i_right: right edge index of current palindrome
-        # i_left: left edge index of current palindrome
+    for i in range(1, len(transformed_str)-1):
+        # i: right edge index of current palindrome
+        # i_mirr: left edge index of current palindrome
         # radius: right edge index of longest palindrome found so far
-        i_left = 2 * center - i_right
+        i_mirr = 2 * center - i
 
-        # Radius edge index greater than, i_right is within bounds
+        # Radius edge index greater than, i is within bounds
         # Set minimum palindrome length for right index
-        # Use precomputated palindrome length if i_right is within bounds of
-        # range from p[i_left] length
-        if (radius > i_right):
-            pal_len[i_right] = min(radius - i_right, pal_len[i_left])
+        # Use precomputated palindrome length if i is within bounds of
+        # range from p[i_mirr] length
+        if (radius > i):
+            pal_len[i] = min(radius - i, pal_len[i_mirr])
         else:
-            pal_len[i_right] = 0
+            pal_len[i] = 0
 
 
-        # Expand palindrome at index i_right, a(right) and b(left)
+        # Expand palindrome at index i, a(right) and b(left)
         # Ensure it is within bounds of transformed_str
-        i_r = i_right + pal_len[i_right] + 1
-        i_l = i_right - pal_len[i_right] - 1
-        while (i_r < len(transformed_str) \
-               and i_l >= 0 \
-               and transformed_str[i_r] == transformed_str[i_l]):
-            pal_len[i_right] += 1
-            i_r = i_right + pal_len[i_right] + 1
-            i_l = i_right - pal_len[i_right] - 1
+        i_right = i + pal_len[i] + 1
+        i_left = i - pal_len[i] - 1
+        while (i_right < len(transformed_str) \
+               and i_left >= 0 \
+               and transformed_str[i_right] == transformed_str[i_left]):
+            pal_len[i] += 1
+            i_right = i + pal_len[i] + 1
+            i_left = i - pal_len[i] - 1
 
-        # Check if expanded palindrome from i_right is extended past radius
-        # Update center to i_right and radius to extend length
-        if (i_right + pal_len[i_right] > radius):
-            center = i_right
-            radius = i_right + pal_len[i_right]
+        # Check if expanded palindrome from i is extended past radius
+        # Update center to i and radius to extend length
+        if (i + pal_len[i] > radius):
+            center = i
+            radius = i + pal_len[i]
 
 
     maxLen = 0
@@ -152,7 +147,10 @@ def longestPalindrome(str):
             centerIndex = j
 
     # Convert indexes to original input string to provide palindrome
-    return str[(centerIndex - maxLen )/2: (centerIndex + maxLen)/2]
+    if maxLen == 1:
+        return None
+    else:
+        return str[(centerIndex - maxLen )/2: (centerIndex + maxLen)/2]
 
 
 print "Question 2 Test Case"
@@ -166,8 +164,8 @@ print longestPalindrome("abracadabra")
 # # aca
 print longestPalindrome("bbasdraceecarasdfa")
 # # racecar
-print longestPalindrome("hello")
-# ll
+print longestPalindrome("abcdefghijklmnopqrstuvwxyz")
+# None
 
 # Question 3
 # Given an undirected graph G, find the minimum spanning tree within G.
