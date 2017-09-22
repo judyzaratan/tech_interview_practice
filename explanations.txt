@@ -1,32 +1,43 @@
 Question 1
 
-Time complexity: O(n)
-It will need to iterate through the length of s, or t
-Space complexity: 1
-Temporary variable storage holding string
+Time complexity: O(len(s)) It will need to iterate through the length of s, or t
+Space complexity: 1 Dictionary holding character counts
 
-The function iterates through the complete s string and takes each character and
-does a check. It checks if the character existing in s, is also in t and removes
-that character in t. It then checks if it can possibly break out of the loop if
-we have encountered all characters in t.
+The function stores a dictionary of character counts for string t.  Utilizing
+this string t dictionary, it compares against sequences of t-length substring s.
+It continues in sequence parsing out substrings in s and compares against the
+dictionary.   This complexity is O(len(s)) because it at most has to iterate
+through the whole string and do a comparison against a dictionary.
 
-The variable temp which serves as a counter to see if all of the characters have
-been exhausted. If it hasn't in sequence, then it will reset back to the
-original string t.
+A subfunction was created for simplicity to handles two dictionaries and compare
+them if they have same contents.
 
 Question 2
 
-Time complexity: O(n^2) Space complexity: 1
+Time complexity: O(n) Space complexity: n
 
-The function begins to find the palindrome by iterating through the length of
-the input string.  The function then utilizes a substring to work with. If a
-palindrome isn't found, it takes another substring of the working string and
-works its way down until the substring length is 0 and resets to the next
-character. I used this instead of pointers, because it took out the complication
-of finding even and odd strings.  Here the pointers are implicit with x as the
-'start' and 'end' as the length of the substring. This function has time
-complexity of n^2 since at each character, it has to compare with n length
-substring
+This function utilizes Manacher's algorithm to solve finding the largest
+palindromic substring in a string.
+
+To avoid the complication of computing between even- and odd-length strings, the
+input string will be converted to (2n+1) length, which will ensure a consistent
+odd-length string to work with.
+
+The way it works is that it utilizes boundaries of a known palindrome. We keep
+an array of palindromic lengths at each index representing a placement of the
+character in the transformed input string. We have pointers to keep track of
+what we need to compare or help with length calculation.   There is a center, i,
+and radius.  Based on the radius value and i (element we need to compute the
+length) and i mirrored to the left of the center, we can determine the minimum
+length at i.  We can keep utilizing i until it reaches a bound where radius is.
+After reaching this bound, we will need to recenter our palindrome and continue
+length calculation there. This will cut down runtime because we are building
+using a information based on previous computations. Also, there is O(n) since
+the steps needed to expand the range with i can take no longer than n steps.
+
+Reference
+http://www.zrzahid.com/longest-palindromic-substring-in-linear-time/
+http://articles.leetcode.com/longest-palindromic-substring-part-ii/
 
 Question 3
 
