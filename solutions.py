@@ -85,46 +85,73 @@ print question1('udacity', 'aduaca')
 # Your function definition should look like question2(a), and return a string.
 
 def processString(s):
-    processedStr = ""
+    """ Provides a string that is 2N + 1 or odd-valued length """
+    """
+        Input: s, example: s="hello"
+        Output: processedStr, example: processStr = "#h#e#l#l#o#"
+    """
+    processed_str = ""
     if len(s) == 0:
-        return "^$"
+        return "##"
     for char in s:
-        processedStr += "#" + char
-    processedStr += "#"
-    return processedStr
+        processed_str += "#" + char
+    processed_str += "#"
+    return processed_str
 
 
 def longestPalindrome(str):
-    # Return
     largestPal = ""
-    workingStr = processString(str)
+    transformed_str = processString(str)
     center = 0
-    radius = 0
-    palindrome_length_at_i = [0 for i in range(len(workingStr))]
+    radius = 0 # Edge index for the largest palindrome encountered
+    pal_len = [0 for i in range(len(transformed_str))]
 
 
-    for i_right in range(1, len(workingStr)-1):
+
+    for i_right in range(1, len(transformed_str)-1):
+        # i_right: right edge index of current palindrome
+        # i_left: left edge index of current palindrome
+        # radius: right edge index of longest palindrome found so far
         i_left = 2 * center - i_right
 
-        palindrome_length_at_i[i_right] =  min(radius - i_right, palindrome_length_at_i[i_left]) if (radius > i_right) else 0
+        # Radius edge index greater than, i_right is within bounds
+        # Set minimum palindrome length for right index
+        # Use precomputated palindrome length if i_right is within bounds of
+        # range from p[i_left] length
+        if (radius > i_right):
+            pal_len[i_right] = min(radius - i_right, pal_len[i_left])
+        else:
+            pal_len[i_right] = 0
 
-        a = i_right + palindrome_length_at_i[i_right] + 1
-        b = i_right - palindrome_length_at_i[i_right] - 1
-        while (a <len(workingStr) and b >= 0 and workingStr[a] == workingStr[b]):
-            palindrome_length_at_i[i_right] += 1
-            a = i_right + palindrome_length_at_i[i_right] + 1
-            b = i_right - palindrome_length_at_i[i_right] - 1
-        if (i_right + palindrome_length_at_i[i_right] > radius):
+
+        # Expand palindrome at index i_right, a(right) and b(left)
+        # Ensure it is within bounds of transformed_str
+        i_r = i_right + pal_len[i_right] + 1
+        i_l = i_right - pal_len[i_right] - 1
+        while (i_r < len(transformed_str) \
+               and i_l >= 0 \
+               and transformed_str[i_r] == transformed_str[i_l]):
+            pal_len[i_right] += 1
+            i_r = i_right + pal_len[i_right] + 1
+            i_l = i_right - pal_len[i_right] - 1
+
+        # Check if expanded palindrome from i_right is extended past radius
+        # Update center to i_right and radius to extend length
+        if (i_right + pal_len[i_right] > radius):
             center = i_right
-            radius = i_right + palindrome_length_at_i[i_right]
+            radius = i_right + pal_len[i_right]
+
+
     maxLen = 0
     centerIndex = 0
-    for j in range(len(palindrome_length_at_i)):
-        if (palindrome_length_at_i[j] > maxLen):
-            maxLen = palindrome_length_at_i[j]
-            centerIndex = j
-    print centerIndex, maxLen, palindrome_length_at_i,(centerIndex - maxLen )/2, (centerIndex + maxLen)/2
 
+    # Iterate through palindrome lengths array to find one that has the maximum length
+    for j in range(len(pal_len)):
+        if (pal_len[j] > maxLen):
+            maxLen = pal_len[j]
+            centerIndex = j
+
+    # Convert indexes to original input string to provide palindrome
     return str[(centerIndex - maxLen )/2: (centerIndex + maxLen)/2]
 
 
@@ -140,7 +167,7 @@ print longestPalindrome("abracadabra")
 print longestPalindrome("bbasdraceecarasdfa")
 # # racecar
 print longestPalindrome("hello")
-# None
+# ll
 
 # Question 3
 # Given an undirected graph G, find the minimum spanning tree within G.
