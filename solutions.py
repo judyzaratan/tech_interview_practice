@@ -84,44 +84,62 @@ print question1('udacity', 'aduaca')
 # Given a string a, find the longest palindromic substring contained in a.
 # Your function definition should look like question2(a), and return a string.
 
+def processString(s):
+    processedStr = ""
+    if len(s) == 0:
+        return "^$"
+    for char in s:
+        processedStr += "#" + char
+    processedStr += "#"
+    return processedStr
+
 
 def longestPalindrome(str):
     # Return
     largestPal = ""
-
-    # Iterate through length of input
-    for x in range(len(str)):
-        workingStr = str[x:]
-        end = len(workingStr)
-
-        # loop through creating smaller substrings of the working string
-        while end != 0:
-            # reverse of the working string
-            reverse = workingStr[-1:-1-len(workingStr)-1:-1]
-
-            if workingStr == reverse:
-                if (len(workingStr)) > len(largestPal):
-                    largestPal = workingStr
-            end -= 1
-            workingStr = workingStr[:end]
+    workingStr = processString(str)
+    center = 0
+    radius = 0
+    palindrome_length_at_i = [0 for i in range(len(workingStr))]
 
 
-    if len(largestPal) == 0 or len(largestPal) == 1:
-        return None
-    else:
-        return largestPal
+    for i_right in range(1, len(workingStr)-1):
+        i_left = 2 * center - i_right
+
+        palindrome_length_at_i[i_right] =  min(radius - i_right, palindrome_length_at_i[i_left]) if (radius > i_right) else 0
+
+        a = i_right + palindrome_length_at_i[i_right] + 1
+        b = i_right - palindrome_length_at_i[i_right] - 1
+        while (a <len(workingStr) and b >= 0 and workingStr[a] == workingStr[b]):
+            palindrome_length_at_i[i_right] += 1
+            a = i_right + palindrome_length_at_i[i_right] + 1
+            b = i_right - palindrome_length_at_i[i_right] - 1
+        if (i_right + palindrome_length_at_i[i_right] > radius):
+            center = i_right
+            radius = i_right + palindrome_length_at_i[i_right]
+    maxLen = 0
+    centerIndex = 0
+    for j in range(len(palindrome_length_at_i)):
+        if (palindrome_length_at_i[j] > maxLen):
+            maxLen = palindrome_length_at_i[j]
+            centerIndex = j
+    print centerIndex, maxLen, palindrome_length_at_i,(centerIndex - maxLen )/2, (centerIndex + maxLen)/2
+
+    return str[(centerIndex - maxLen )/2: (centerIndex + maxLen)/2]
+
 
 print "Question 2 Test Case"
+print longestPalindrome("racecar")
 
 print longestPalindrome("bbbbbbbbbbbbbbrracecarxxxxxxxxxxxxxxxxxxxx")
-# xxxxxxxxxxxxxxxxxxxx
+#  xxxxxxxxxxxxxxxxxxxx
 print longestPalindrome("sdaasdfracecarbbb")
-# racecar
+#  racecar
 print longestPalindrome("abracadabra")
-# aca
+# # aca
 print longestPalindrome("bbasdraceecarasdfa")
-# racecar
-print longestPalindrome("abcdefghijklmnopqrstuvwxyz")
+# # racecar
+print longestPalindrome("hello")
 # None
 
 # Question 3
